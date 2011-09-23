@@ -1,33 +1,27 @@
 #!/bin/bash
-# Here do anything needed to install the service
-# i.e. apt-get install -y foo  or  bzr branch http://myserver/mycode /srv/webroot
 
 set -x
 
 juju-log "install script"
 
-export TERM=linux
+#RELEASE_CODE=`lsb_release -cs`
 
-#RELEASE_CODE=`lsb_release -a | awk '/Codename/ { print $2 }'`
-
-# Add the Hadoop PPA
 juju-log "Adding ppa"
-apt-add-repository ppa:mark-mims/hadoop
-#apt-add-repository ppa:canonical-sig/thirdparty
-juju-log "updating cache"
+apt-add-repository "deb http://package.mapr.com/releases/v1.1.1/ubuntu/ mapr optional"
 apt-get update
 
-# only necessary on oneiric but shouldn't break anything elsewhere
 HOSTNAME=`hostname -f`
 IP_ADDRESS=`hostname -f | xargs dig +short`
-#sed -i "s/\(.*${HOSTNAME}.*\)/#\1/" /etc/hosts
+juju-log "Private IP: ${IP_ADDRESS}"
+
+# fixing hosts entry added by cloudinit
 sed -i "s/127.0.1.1\(.*${HOSTNAME}.*\)/${IP_ADDRESS}\1/" /etc/hosts
 
-# Install the packages
 juju-log "installing packages"
-DEBIAN_FRONTEND=noninteractive apt-get install -y hadoop-0.20-datanode hadoop-0.20-tasktracker
 
-# Open the necessary ports
+DEBIAN_FRONTEND=noninteractive apt-get install -y hadoop-0.20-datanode
+DEBIAN_FRONTEND=noninteractive apt-get install -y hadoop-0.20-tasktracker
+
 if [ -x /usr/bin/open-port ];then
    open-port 50010/TCP
    open-port 50020/TCP
