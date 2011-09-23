@@ -1,0 +1,10 @@
+name: mapr-slave
+revision: 1
+summary: Slave Node for MapR
+description: slave node for mapr
+provides:
+  ganglia:
+    interface: monitor
+requires:
+  mapr-master:
+    interface: mapr-master
