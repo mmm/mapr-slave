@@ -3,8 +3,9 @@ revision: 1
 summary: Slave Node for MapR
 description: slave node for mapr
 provides:
+  mapr-node:
+    interface: mapr-node
+  zk-node:
+    interface: zk-node
   ganglia:
     interface: monitor
-requires:
-  mapr-master:
-    interface: mapr-master

@@ -1,0 +1,23 @@
+#!/bin/bash
+set -x
+
+CLDB_HOST=`relation-get master`
+if [ -z "$CLDB_HOST" ]; then
+	exit 0
+fi
+
+mapr_already_configured() {
+  false
+}
+configure_mapr() {
+
+}
+mapr_already_configured || configure_mapr
+
+export DEBIAN_FRONTEND=noninteractive
+#dpkg-reconfigure hadoop-0.20-datanode
+#dpkg-reconfigure hadoop-0.20-tasktracker
+
+#service hadoop-0.20-datanode restart
+#service hadoop-0.20-tasktracker restart
+

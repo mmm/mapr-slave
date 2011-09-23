@@ -1,0 +1,23 @@
+#!/bin/bash
+set -x
+
+ZK_MASTER_HOST=`relation-get master`
+if [ -z "$ZK_MASTER_HOST" ]; then
+	exit 0
+fi
+
+#install mapr-zookeeper here instead of install
+
+mapr_already_configured() {
+  false
+}
+configure_mapr() {
+}
+mapr_already_configured || configure_mapr
+
+export DEBIAN_FRONTEND=noninteractive
+#dpkg-reconfigure hadoop-0.20-datanode
+
+#service hadoop-0.20-datanode restart
+#service hadoop-0.20-tasktracker restart
+
